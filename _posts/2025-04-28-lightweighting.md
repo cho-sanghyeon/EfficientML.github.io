@@ -2,7 +2,9 @@
 layout: post
 title: "Model Compression for Efficient AI"
 date: 2025-04-28
-categories: blog
+tags: [deep learning, model compression, edge computing]
+categories: [blogposts]
+author: "Your Name"
 ---
 
 ## 1. Introduction
