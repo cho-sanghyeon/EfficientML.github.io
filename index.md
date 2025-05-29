@@ -111,16 +111,16 @@ Unlike unstructured pruning, **structured pruning provides significant hardware 
 **L1 Norm-based Metric** L1 norm-based methods **quantify unit importance by computing the absolute sum of weight vectors associated with each channel, neuron, or attention head.** The L1 norm metric is mathematically defined as follows:
 
 $$ 
-\l_1 = |x_1| + |x_2| + \cdots + |x_n| 
-$$
+l_1 = |x_1| + |x_2| + \cdots + |x_n|\tag{1} 
+$$.
 
 Generally, **smaller L1 norm values imply a lower contribution to the model output, thus identifying them as targets for pruning**. Li et al. [30] proposed a pruning approach for CNNs that effectively reduces computational complexity by removing filters with low L1 norm values while minimizing accuracy degradation. Subsequently, this method has been successfully extended to various model structures, including attention heads and hidden units within Transformer models' MLP blocks. The advantage of this method is that it can evaluate importance using only pretrained weight information, eliminating the need for additional training or gradient computations [31]. Specifically, the L1 norm naturally aligns with structured pruning methods such as channel-wise and head-wise pruning, providing structural consistency. This alignment avoids complex sparse mask management on hardware and achieves practical reductions in computational cost and enhanced inference speed. Consequently, the L1 norm has become a widely adopted importance evaluation metric, combining practicality and efficiency [23].
 
 However, **the L1 norm may yield relatively conservative pruning results** because it does not consider input data or dynamic gradient information [20]. To address this limitation, more sophisticated importance evaluation techniques, such as gradient-based and Hessian-based methods, are actively being explored.
 
-\[
-l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}
-\].
+$$ 
+l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2} 
+$$
 
 **L2 Norm-based Metric** The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
