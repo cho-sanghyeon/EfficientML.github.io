@@ -8,26 +8,21 @@ Posted by Yeeun Kim, Sanghyeon Cho
 
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
-<p align="center">
+<div style="display:flex; justify-content:center; align-items:center;">
   <!-- 왼쪽 그림 -->
-  <img src="./Fig1.VGG-19 and ResNet-34.png"
-       alt="VGG-19 and ResNet-34"
-       width="400"
-       style="display:inline-block; margin-right:12px;">
+  <div style="text-align:center; margin-right:16px;">
+    <img src="./Fig1.VGG-19 and ResNet-34.png" alt="VGG-19 and ResNet-34" width="400">
+    <br>
+    <i>Figure&nbsp;1. VGG-19 [3] & ResNet-34 [4]</i>
+  </div>
 
   <!-- 오른쪽 그림 -->
-  <img src="./Fig2. ViT.png"
-       alt="Vision Transformer"
-       width="400"
-       style="display:inline-block;">
-</p>
-
-<p align="center">
-  <i>
-    Figure&nbsp;1. VGG-19&nbsp;[3] and ResNet-34&nbsp;[4] &nbsp;&nbsp;|&nbsp;&nbsp;
-    Figure&nbsp;2. Vision Transformer (ViT) [5]
-  </i>
-</p>
+  <div style="text-align:center;">
+    <img src="./Fig2. ViT.png" alt="Vision Transformer" width="400">
+    <br>
+    <i>Figure&nbsp;2. Vision Transformer (ViT) [5]</i>
+  </div>
+</div>
 
 Contemporary vision models and large language models (LLMs) now comprise tens to hundreds of billions of parameters, necessitating hundreds of gigabytes of memory and over 10 TFLOPs of computational throughput per second at FP16 precision. These considerable computational requirements result in prohibitively high training costs, even within data centers equipped with advanced GPUs. Furthermore, **edge devices such as mobile phones, IoT sensors, and wearable devices have limited DRAM capacity, constrained computational power, and insufficient battery life, complicating the efficient deployment of large-scale models.** Consequently, these devices often experience increased inference latency and heightened heat and power consumption, limiting their usability in real-time applications. Therefore, model compression strategies that effectively reduce model size and computational complexity, while preserving performance, are crucial. Model compression techniques have emerged as essential methods for realizing lightweight deep learning models and facilitating practical deployment [3].
 
