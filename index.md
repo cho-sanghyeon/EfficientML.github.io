@@ -208,7 +208,7 @@ The Vision Transformer (ViT) model pretrained on the CIFAR-100 dataset comprises
 ### 4.3. Fine-tuning Time for Both Architectures
 <p>&nbsp;</p>
 <p align="center">
-    <img src='./Figure 10. Training time on fine-tuning.jpg' width="650">
+    <img src='./Figure 10. Training time on fine-tuning.jpg' width="500">
     <br>
     <i>Figure 10. Training Time on Fine-Tuning</i>
 </p>
