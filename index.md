@@ -1,9 +1,7 @@
 ---
-bookToc: true
-weight: 1
+layout: default
 ---
 
-# Do Pruning Metrics Generalize? A Cross-Architecture Study on CNNs and Transformer
 Posted by Yeeun Kim, Sanghyeon Cho
 
 ## 1. Introduction
