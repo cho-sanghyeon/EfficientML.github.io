@@ -5,7 +5,8 @@ title: ""          # ← 비우면 page.title이 사라져 site.title을 사용
 
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
-</p>
+
+
 <p align="center">
     <img src='./Fig1.VGG-19 and ResNet-34.png' width="500">
     <br>
@@ -17,10 +18,12 @@ With the rapid advancement of deep learning technologies, high-performance deep 
     <i>Figure 2. Vision Trasnsformer (ViT) [5]</i>
 </p>
 
+
 Contemporary vision models and large language models (LLMs) now comprise tens to hundreds of billions of parameters, necessitating hundreds of gigabytes of memory and over 10 TFLOPs of computational throughput per second at FP16 precision. These considerable computational requirements result in prohibitively high training costs, even within data centers equipped with advanced GPUs. Furthermore, **edge devices such as mobile phones, IoT sensors, and wearable devices have limited DRAM capacity, constrained computational power, and insufficient battery life, complicating the efficient deployment of large-scale models.** Consequently, these devices often experience increased inference latency and heightened heat and power consumption, limiting their usability in real-time applications. Therefore, model compression strategies that effectively reduce model size and computational complexity, while preserving performance, are crucial. Model compression techniques have emerged as essential methods for realizing lightweight deep learning models and facilitating practical deployment [3].
 
 **Model compression methods aim to optimize deep learning model efficiency by reducing memory consumption, storage requirements, and computational demands.** Additionally, decreasing model complexity through compression can mitigate overfitting, reduce training time and energy consumption [7], and shorten inference latency. Among the various compression strategies, pruning has become the most extensively studied and widely applied approach. **Pruning involves introducing sparsity by identifying and removing less critical parameters within neural networks.** Initially, magnitude-based pruning, which selects parameters for removal based solely on their magnitude, was predominantly employed [8]. Recently, more sophisticated mathematical techniques, including gradient-based methods and sensitivity analyses utilizing Hessian matrices, have emerged [10–12].
-</p>
+
+
 <p align="center">
     <img src='./Fig3. Unstructured pruning.png' width="500">
     <br>
@@ -32,6 +35,7 @@ Contemporary vision models and large language models (LLMs) now comprise tens to
     <i>Figure 4. Structured Pruning [26] </i>
 </p>
 
+
 **Pruning techniques can generally be classified into unstructured pruning (Fig. 3) and structured pruning (Fig. 4)**, based on the granularity of the units removed. **Unstructured pruning** introduces sparsity at the individual weight level, significantly reducing parameter count. However, from a hardware implementation perspective, it encounters challenges in translating this sparsity into actual reductions in multiply-accumulate (MAC) operations or inference speed improvements due to irregular memory access patterns and computational structures [8, 13]. In contrast, **structured pruning** removes coarse-grained components—such as filters, channels, or even entire layers—thereby facilitating efficient execution on hardware accelerators and parallel computing platforms. Thus, structured pruning is better suited for enhancing inference speed and energy efficiency in practical deployment environments [14, 15]. Nonetheless, structured pruning is typically more susceptible to performance degradation because of the relatively larger granularity of the removed units [14, 16].
 
 **Despite these challenges, recent advancements in structured pruning have significantly progressed.** Techniques such as network slimming, which utilize the scaling parameters in Batch Normalization layers, have been introduced [17]. Several studies have also demonstrated methods to minimize accuracy loss from structured pruning. Additionally, combining intelligent fine-tuning with knowledge distillation after pruning has occasionally resulted in performance surpassing that of the original model [18, 19]. These developments indicate that structured pruning is gradually overcoming the traditional trade-off between accuracy and computational efficiency.
@@ -39,20 +43,24 @@ Contemporary vision models and large language models (LLMs) now comprise tens to
 The efficacy of pruning largely hinges on the choice of importance metrics, which assess the significance of parameters or structural components targeted for removal [8, 10]. **Importance metrics are critical for accurately identifying less essential parameters or structures, thereby maximizing compression efficiency while minimizing performance degradation [20].** Various importance metrics proposed in the literature include magnitude-based metrics that rely on parameter absolute values [21], gradient-based metrics that leverage gradient information from the loss function [22], Hessian-based metrics that utilize second-order derivatives from the Hessian matrix [12], and activation sensitivity metrics reflecting the sensitivity of activation values [9]. The effectiveness of each metric can vary depending on specific model architectures or application scenarios, and a consensus regarding a universally optimal metric has not yet been reached.
 
 **Considerable research has been conducted on evaluating pruning importance in convolutional neural networks (CNNs)**. For instance, Molchanov et al. [10] comparatively analyzed pruning performance using L2 norm-based and gradient-based metrics across various CNN models (Table 1). However, there remains a noticeable research gap regarding the generalization and performance validation of these importance evaluation metrics in the recently emerging Transformer architecture.
-</p>
+
+
 <p align="center">
     <img src='./Table 1.png' width="850">
     <br>
     <i>Table 1. Evaluation of Pruning Performance Using L2 Norm Importance Metric Across Multiple CNN Architectures [10]</i>
 </p>
 
+
 **This gap arises primarily due to structural differences between Transformers and CNNs.** Transformers possess unique architectural characteristics distinct from traditional convolutional and recurrent networks, notably their attention mechanisms, as depicted in Figure 5. Consequently, importance evaluation methods developed for CNN or RNN-based pruning may exhibit limited effectiveness when directly applied to Transformers [23]. In particular, there is a significant need for further research on developing new metrics specifically for evaluating component importance within multi-head attention and feed-forward networks and conducting systematic performance analyses [24].
-</p>
+
+
 <p align="center">
     <img src='./Figure 5. The architectures - transformer and multi-head attention.png' width="650">
     <br>
     <i>Figure 5. The Architectures - Transformer and Multi-Head Attention</i>
 </p>
+
 
 To address these limitations, **this study systematically investigates the behavior of identical pruning metrics across different model architectures.** Specifically, four representative importance metrics—L1 norm, L2 norm, Random, and Taylor expansion—were selected and applied to two structurally distinct model families: Vision Transformer (ViT) and ResNet. The primary goal of this study is to quantitatively assess how the selected importance metrics impact pruning performance within each architecture and to elucidate how the evaluation outcomes and pruning effectiveness vary when the same metrics are employed across different models. The results from this comparative analysis will provide a fundamental framework for establishing optimized pruning strategies tailored to specific model architectures.
 
@@ -63,12 +71,14 @@ Additionally, **sparsity ratios were set at levels comparable to widely adopted 
 ### 2.1. CNN Model - ResNet
 
 In this study, we employed **ResNet-56** as a convolution-based model. ResNet, initially proposed by He et al. [4], is widely recognized **for effectively mitigating the gradient vanishing problem inherent in deep neural networks and significantly enhancing training stability through residual connections.** These connections simplify the function space the network must learn by introducing a shortcut path that directly transmits input x to the subsequent block, effectively representing the learned function as  $$F(x) + x$$ (Fig. 6).
-</p>
+
+
 <p align="center">
     <img src='./Figure 6. Basic Residual Connection in ResNet .png' width="400">
     <br>
     <i>Figure 6. Basic Residual Connection in ResNet</i>
 </p>
+
 
 Figure 6 visually represents the hierarchical structure of ResNet-34, illustrating **the arrangement of residual blocks and shortcut connections.** ResNet-56, utilized in this research, follows a similar architecture optimized for the CIFAR dataset series. Due to its clear structural definition and uniform block operations, ResNet-56 is particularly suitable for in-depth architectural-level analyses of the role and influence of pruning importance metrics. Thus, ResNet-56 serves as a primary subject to quantitatively evaluate the impact of various importance metrics on pruning performance.
 
@@ -79,12 +89,14 @@ As illustrated in Figure 2, ViT incorporates a class token ([CLS]) analogous to 
 
 ### 2.3. Channel-Wise Pruning in CNN
 **Channel-wise structured pruning involves the removal of entire output channels from convolutional layers, including associated filters and feature maps.** This approach effectively reduces computational complexity and parameters while preserving the hierarchical network structure. Figure 8 visually illustrates channel-wise pruning, highlighting the method of selectively removing less critical channels through importance evaluation, thus enabling model lightweighting.
-</p>
+
+
 <p align="center">
     <img src='./Figure 7. Channel-Wise Structured Pruning.png' width="850">
     <br>
     <i>Figure 7. Channel-Wise Structured Pruning</i>
 </p>
+
 
 **Channel-wise pruning contrasts notably with unstructured pruning, which achieves high compression through weight-level sparsity but faces limitations due to inefficient hardware implementation resulting from sparse matrices and irregular memory access.** Conversely, channel-wise pruning maintains model structural integrity, with clearly defined pruning units, rendering it highly suitable for parallel hardware execution and offering simultaneous storage and computational efficiency [27].
 Additionally, studies [14,15] empirically demonstrated **the effectiveness of channel-based pruning in enhancing inference speed and energy efficiency within real-world device contexts.** Experiments across multiple CNN models revealed that channel-wise structured pruning exhibits lower overhead, improved hardware compatibility, and practical performance gains compared to unstructured sparsity pruning methods.
@@ -92,14 +104,16 @@ Additionally, studies [14,15] empirically demonstrated **the effectiveness of ch
 ### 2.4. Modular Structured Pruning in ViT: Attention Heads and FFN Neurons 
 Concurrently, structural pruning methodologies, analogous to the channel-wise pruning described in Section 2.3, are actively investigated within Transformer-based models. Vision Transformer (ViT), in particular, facilitates **the application of distinct pruning strategies tailored to each module** due to its modular architecture, comprising self-attention and feed-forward network (FFN) modules arranged in parallel.
 **Attention head pruning** refers to the removal of entire individual heads within the multi-head self-attention mechanism. An attention head consists of query (Q), key (K), value (V), and output (O) weight matrices, along with the corresponding -dimensional output space. Heads exhibiting relatively lower importance are identified through importance evaluation metrics and sequentially pruned. Removal of a head involves simultaneous deletion of corresponding columns from the Q, K, and V matrices, as well as rows from the O matrix, thus reducing the concatenated projection dimension by . Consequently, this results in a linear reduction in FLOPs and parameters, and alleviates memory bandwidth constraints due to fewer parallel head executions.
-</p>
+
+
 <p align="center">
     <img src='./Figure 8. FFN and head pruning.png' width="650">
     <br>
     <i>Figure 8. FFN and Head Pruning [29]</i>
 </p>
 
-**FFN neuron pruning** is a channel-wise structured pruning technique aimed at removing individual neurons constituting the FFN’s internal expansion dimension, . As depicted in Figure 8, pruning a neuron concurrently removes the corresponding row from the input projection matrix  and the corresponding column from the output projection matrix . This pruning reduces the width of the FFN while preserving the tensor dimensions of adjacent layers. Importance is evaluated based on various criteria, including the L1 or L2 norm averages of activations per token or the Fisher information. Uniform neuron pruning across all blocks maintains consistent tensor dimensions throughout the model, simplifying implementation and enhancing computational efficiency.
+**
+FFN neuron pruning** is a channel-wise structured pruning technique aimed at removing individual neurons constituting the FFN’s internal expansion dimension, . As depicted in Figure 8, pruning a neuron concurrently removes the corresponding row from the input projection matrix  and the corresponding column from the output projection matrix . This pruning reduces the width of the FFN while preserving the tensor dimensions of adjacent layers. Importance is evaluated based on various criteria, including the L1 or L2 norm averages of activations per token or the Fisher information. Uniform neuron pruning across all blocks maintains consistent tensor dimensions throughout the model, simplifying implementation and enhancing computational efficiency.
 
 Unlike unstructured pruning, **structured pruning provides significant hardware advantages.** Unstructured pruning achieves high compression by setting individual weights to zero but often lacks performance gains without specialized GEMM kernels due to overhead from sparse matrix storage and indexing during inference. Conversely, structured pruning of attention heads and neurons directly reduces computation and memory usage by decreasing tensor dimensions, thereby leveraging standard dense GEMM operations. This consistently improves batch processing latency, reduces power consumption and heat generation, and allows easier performance prediction and optimization, particularly in mobile GPUs and AI accelerator environments. Additionally, preserving structural integrity enhances training stability during subsequent fine-tuning or knowledge distillation phases. Thus, leveraging the parallel modular characteristics of ViT through structured pruning optimizes hardware efficiency and offers practical advantages over unstructured pruning methods, which primarily generate sparse weight matrices.
 
@@ -109,9 +123,11 @@ Unlike unstructured pruning, **structured pruning provides significant hardware 
 #### 2.5.1. L1 Norm-based Metric 
 L1 norm-based methods **quantify unit importance by computing the absolute sum of weight vectors associated with each channel, neuron, or attention head.** The L1 norm metric is mathematically defined as follows:
 
+
 $$ 
 l_1 = |x_1| + |x_2| + \cdots + |x_n|. 
 $$
+
 
 Generally, **smaller L1 norm values imply a lower contribution to the model output, thus identifying them as targets for pruning**. Li et al. [30] proposed a pruning approach for CNNs that effectively reduces computational complexity by removing filters with low L1 norm values while minimizing accuracy degradation. Subsequently, this method has been successfully extended to various model structures, including attention heads and hidden units within Transformer models' MLP blocks. The advantage of this method is that it can evaluate importance using only pretrained weight information, eliminating the need for additional training or gradient computations [31]. Specifically, the L1 norm naturally aligns with structured pruning methods such as channel-wise and head-wise pruning, providing structural consistency. This alignment avoids complex sparse mask management on hardware and achieves practical reductions in computational cost and enhanced inference speed. Consequently, the L1 norm has become a widely adopted importance evaluation metric, combining practicality and efficiency [23].
 
@@ -120,9 +136,11 @@ However, **the L1 norm may yield relatively conservative pruning results** becau
 #### 2.5.2. L2 Norm-based Metric 
 The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
+
 $$ 
 l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
 $$
+
 
 In general, weight vectors characterized **by small L2 norm values are targeted for pruning due to their minimal contribution to the model output**. Compared to the L1 norm, the L2 norm imposes a relatively higher penalty on larger weights, resulting in stronger suppression of smaller weight values. This property becomes particularly prominent when weight distributions are broad or contain outliers, typically leading to more conservative pruning outcomes than those obtained using the L1 norm [32]. He et al. [33] demonstrated pruning using an L2 norm-based metric to evaluate filter importance in residual networks. Their findings suggest that this approach can be generalized effectively across diverse architectures, including multi-head attention and MLP blocks within attention-based models as well as residual networks.
 
@@ -131,9 +149,11 @@ In general, weight vectors characterized **by small L2 norm values are targeted 
 #### 2.5.3. Taylor Expansion-based Metric
 Pruning based on Taylor expansion offers a theoretically grounded approach **to estimating sensitivity concerning model performance and assessing pruning importance, rendering it a more sophisticated and interpretable pruning strategy.** This method evaluates pruning importance by approximating the change in the loss function upon removal of specific parameters or structural units via first- or second-order Taylor expansions. Molchanov et al. [1] introduced a representative first-order Taylor-based pruning technique, which estimates the change in the loss function  attributable to removing a specific weight  using the first derivative. The corresponding importance metric is thus formally defined:
 
+
 $$ 
 I(w) = \left| \frac{\partial \mathcal{L}}{\partial w} \cdot w \right|. 
 $$
+
 
 The term $$\frac{\partial \mathcal{L}}{\partial w}$$ represents the gradient of the loss function with respect to the weight $$w_{i}$$. By multiplying this gradient by the corresponding weight, the quantitative impact of pruning that weight on the model performance can be estimated. In contrast to L1 or L2 norm-based methods, **Taylor-based approaches beneficially incorporate gradient information, thereby reflecting input data characteristics and learning dynamics.** LeCun et al.'s *Optimal Brain Damage* [11] and Hassibi & Stork's *Optimal Brain Surgeon* [33] utilized second-order Taylor expansions involving Hessian matrix calculations for more precise importance assessment. Despite their accuracy, these methods are computationally intensive and challenging to implement, leading to wider practical adoption of simpler first-order gradient-weight multiplication approximations.
 
@@ -142,9 +162,11 @@ Taylor-based pruning methods are effective not only for finely-tuned high-perfor
 #### 2.5.4. Random Metric
 Random pruning is the simplest pruning strategy, **selecting and removing target units entirely at random, independent of any importance metrics.** This approach disregards weight magnitude, gradient information, or input characteristics, pruning weights, channels, or attention heads based solely on predefined sparsity ratios. Intuitively considered inefficient, random pruning nonetheless serves widely as a baseline for comparative analysis across numerous studies. 
 
+
 $$ 
 \text{Random(Unit)}. 
 $$
+
 
 Blalock et al. [20], in a systematic review of pruning methods, noted that **random pruning could yield surprisingly competitive performance under certain scenarios**. Particularly, even uninformed pruning approaches might attain accuracy levels comparable to those using explicit importance metrics after adequate fine-tuning [34]. Moreover, random pruning frequently functions as a baseline to evaluate whether specific importance metrics meaningfully contribute to pruning performance enhancement. For instance, Molchanov et al. [10] validated gradient-based pruning effectiveness through comparative analysis against randomly pruned models. Nonetheless, **random pruning may induce irregular structural changes, especially problematic in structured pruning environments, leading to computational unit imbalances and diminished hardware efficiency.**
 
@@ -156,12 +178,13 @@ Blalock et al. [20], in a systematic review of pruning methods, noted that **ran
 
 **Fine-Tuning.** After pruning, a fine-tuning phase was performed to minimize performance degradation and recover any losses incurred during pruning. To balance computational cost and convergence stability, the number of training epochs during fine-tuning was limited to 50. Preliminary experiments of Figure 9, indicated that extending training beyond 50 epochs yielded no significant improvement in loss, supporting this decision as a measure to prevent overfitting and maintain efficient training.
 
-</p>
+
 <p align="center">
     <img src='./Figure 9. Loss curves during 100 epochs of fine-tuning for two architectures.PNG' width="800">
     <br>
     <i>Figure 9. Loss Curves During 100 Epochs of Fine-Tuning for Two architectures</i>
 </p>
+
 
 During fine-tuning, the Adam optimizer was used with a learning rate of 1e-4 to ensure stable initial learning. Weight decay was set to 1e-3 to further prevent overfitting and effectively restore any loss in performance due to pruning.
 
@@ -170,7 +193,8 @@ During fine-tuning, the Adam optimizer was used with a learning rate of 1e-4 to 
 ## 4. Results
 ### 4.1.  Channel-wise Structured Pruning in CNN
 The ResNet-56 model pretrained on the CIFAR-100 dataset has approximately 0.826M parameters and 32.725 GFLOPs of computational cost (Table 2). In this study, three pruning ratios of 25%, 50%, and 75% were applied, reducing the parameters and FLOPs to 0.620M/26.673G, 0.443M/19.933G, and 0.327M/14.486G, respectively (Table 3). As the pruning ratio increased, significant reductions in both parameters and computational cost were observed, and performance was effectively recovered through fine-tuning after pruning in all cases.
-</p>
+
+
 <p align="center">
     <img src='./Table 2. Original ResNet-56 Model.png' width="800">
     <br>
@@ -182,18 +206,21 @@ The ResNet-56 model pretrained on the CIFAR-100 dataset has approximately 0.826M
     <i>Table 3. Pruning Methods on the ResNet-56 Model at Various Pruning Ratio</i>
 </p>
 
+
 **At a 25% pruning ratio**, the random metric exhibited the best performance prior to fine-tuning, with top-1 accuracy of 5.71% and top-5 accuracy of 16.12%. However, after fine-tuning, the Taylor expansion-based pruning method achieved the highest performance, with a top-1 accuracy of 71.50% and top-5 accuracy of 91.92%. L1 and L2 norm-based pruning methods showed similar performance levels. **At a 50% pruning ratio,** the L2 norm-based pruning slightly outperformed before fine-tuning with a top-1 accuracy of 1.22% and top-5 accuracy of 6.49%. Post fine-tuning, the Taylor expansion-based method showed the best performance with top-1 accuracy of 69.69% and top-5 accuracy of 91.17%, closely followed by random pruning with a top-5 accuracy of 91.45%. **At a 75% pruning ratio**, random pruning achieved the highest top-1 accuracy of 65.96% and top-5 accuracy of 89.63% after fine-tuning, although the performance difference compared to the Taylor expansion-based method was negligible (less than 0.1%). L1 and L2 norm-based models exhibited relatively lower accuracies.
 
 Overall, **at low to moderate pruning rates, the Taylor expansion–based criterion—which leverages gradient information—demonstrated the greatest efficacy.** In residual networks such as ResNet, each block’s output is formed by the sum of a residual function F(x) and an identity shortcut, allowing critical information to bypass individual convolutional layers. Consequently, pruning based solely on simple magnitude metrics such as L1 or L2 norm risks eliminating parameters with small absolute values that nevertheless contribute substantially to loss reduction, thereby degrading overall performance. By contrast, the Taylor expansion–based method evaluates the first‐order approximation of the change in the loss function, preserving parameters with high loss sensitivity regardless of their magnitude and removing those with large magnitude but low sensitivity, thus maintaining the representational capacity of the residual architecture more finely. **At high pruning rates, however, the performance gap between different importance metrics narrows and even random selection yields competitive results.** This suggests that, under extreme pruning, structural damage to the network becomes the primary driver of performance degradation, thereby diminishing the relative influence of any individual importance criterion. After retraining, the performance gaps between metrics were virtually eliminated, underscoring that the refinement phase’s capacity to adjust the surviving parameters and locate superior minima is more pivotal to recovery than the initially selected importance criterion.
 
 ### 4.2. Modular Structured Pruning in ViT: Attention Heads and FFN Neurons
 The Vision Transformer (ViT) model pretrained on the CIFAR-100 dataset comprises approximately 85.723 million parameters and requires 33.726 GFLOPs for inference, as shown in Table 4. In this study, we conducted experiments with pruning ratios set to 25%, 50%, and 75%. After pruning, the model sizes and computational costs were reduced to 64.474M/25.360G, 43.224M/16.994G, and 21.974M/8.628G, respectively (Table 5). As the pruning ratio increased, the model complexity was significantly reduced, while fine-tuning effectively restored model performance in most cases.
-</p>
+
+
 <p align="center">
     <img src='./Table 4. Original ViT Model.png' width="800">
     <br>
     <i>Table 4. Original ViT Model </i>
 </p>
+
 
 <p align="center">
     <img src='./Table 5. Pruning Methods on The ViT Model at Various Pruning Ratio.png' width="800">
@@ -201,16 +228,20 @@ The Vision Transformer (ViT) model pretrained on the CIFAR-100 dataset comprises
     <i>Table 5. Pruning Methods on The ViT Model at Various Pruning Ratio</i>
 </p>
 
+
 **For the 25% pruning scenario**, prior to fine-tuning, the Taylor expansion-based pruning method achieved the highest accuracy, recording a top-1 accuracy of 59.92% and a top-5 accuracy of 82.80%. After fine-tuning, the Taylor expansion method still yielded the best top-1 accuracy at 87.70%, while the random pruning baseline achieved the highest top-5 accuracy at 97.83%. Pruning methods based on L1 and L2 norms showed performance levels comparable to Taylor expansion and random pruning. **Under the 50% pruning condition**, the Taylor expansion-based method again exhibited strong performance before fine-tuning, achieving 21.72% top-1 and 44.17% top-5 accuracy. However, after fine-tuning, L1-norm-based pruning achieved the highest top-1 accuracy of 85.12%, while L2-norm-based pruning recorded the highest top-5 accuracy of 97.20%. **For the 75% pruning case**, Taylor expansion-based pruning continued to outperform other methods before fine-tuning (top-1: 4.01%, top-5: 13.07%). However, after fine-tuning, L2-norm-based pruning achieved the best performance, with a top-1 accuracy of 79.10% and a top-5 accuracy of 94.84%. Other importance-based pruning criteria showed comparatively lower accuracy in this setting.
 
 **The exceptional performance of Taylor expansion-based pruning in Vision Transformer (ViT) models before fine-tuning is closely related to the unique architecture and operational principles of ViT.** Unlike convolutional neural networks (CNNs), which utilize local convolutional filters, ViT processes input data through self-attention mechanisms and feed-forward networks, distributing information globally across the entire input sequence. Due to this architectural property, magnitude-based pruning criteria such as L1 or L2 norm may indiscriminately remove parameters with small absolute values, even if those parameters are highly sensitive to the loss function. In ViT models, relationships captured by attention heads and feed-forward neurons can play a crucial role in maintaining model performance, even when the corresponding weights are small. As a result, simple magnitude-based pruning can inadvertently remove subtle yet essential components, leading to performance degradation. In contrast, Taylor expansion-based pruning leverages the first-order approximation of each parameter’s impact on the loss (i.e., gradient information), preserving parameters that, despite their small magnitude, significantly influence the loss function, while selectively removing those with minimal impact. By directly considering sensitivity to the loss, this approach is especially effective in ViT models, where global interactions and complex dependencies are fundamental to model performance, thus helping maintain the functional integrity of attention mechanisms and the model's representational power. **After fine-tuning, however, the differences in performance among various importance metrics became marginal**, suggesting that the ability of the fine-tuning process to effectively readjust the remaining weights and find new optima played a more critical role in performance recovery than the choice of metric itself.
 ### 4.3. Fine-tuning Time for Both Architectures
+
+
 <p>&nbsp;</p>
 <p align="center">
     <img src='./Figure 10. Training time on fine-tuning.jpg' width="500">
     <br>
     <i>Figure 10. Training Time on Fine-Tuning</i>
 </p>
+
 
 **Figure 10 presents a comparative analysis of the fine-tuning times for ResNet and ViT models under varying pruning ratios**. The results indicate a marked reduction in training time for the ViT model as the pruning ratio increases. In particular, the fine-tuning time for the ViT model decreased dramatically from approximately 350 seconds to below 150 seconds as the pruning ratio was raised from 25% to 75%. This demonstrates that, for the ViT model, increased pruning not only simplifies the model structure but also substantially reduces computational load and training time. In contrast, the ResNet model exhibited little to no change in fine-tuning time across different pruning ratios, consistently maintaining a training time of around 50 seconds. This discrepancy can be attributed to the inherently higher structural complexity of ViT compared to ResNet, which allows ViT to benefit more significantly from pruning in terms of computational efficiency. These findings confirm that, in addition to maintaining model performance, pruning can also effectively accelerate the training process for the ViT model. This highlights the potential of pruning as a practical approach for improving the training efficiency of large and complex models like ViT.
 
