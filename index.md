@@ -119,8 +119,8 @@ Generally, **smaller L1 norm values imply a lower contribution to the model outp
 However, **the L1 norm may yield relatively conservative pruning results** because it does not consider input data or dynamic gradient information [20]. To address this limitation, more sophisticated importance evaluation techniques, such as gradient-based and Hessian-based methods, are actively being explored.
 
 $$ 
-\l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2} 
-$$.
+\l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
+$$
 
 **L2 Norm-based Metric** The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
@@ -131,8 +131,8 @@ In general, weight vectors characterized **by small L2 norm values are targeted 
 **Taylor Expansion-based Metric** Pruning based on Taylor expansion offers a theoretically grounded approach **to estimating sensitivity concerning model performance and assessing pruning importance, rendering it a more sophisticated and interpretable pruning strategy.** This method evaluates pruning importance by approximating the change in the loss function upon removal of specific parameters or structural units via first- or second-order Taylor expansions. Molchanov et al. [1] introduced a representative first-order Taylor-based pruning technique, which estimates the change in the loss function  attributable to removing a specific weight  using the first derivative. The corresponding importance metric is thus formally defined:
 
 $$ 
-I(w) = \left| \frac{\partial \mathcal{L}}{\partial w} \cdot w \right| 
-$$.
+I(w) = \left| \frac{\partial \mathcal{L}}{\partial w} \cdot w \right|. 
+$$
 
 The term $$\frac{\partial \mathcal{L}}{\partial w}$$ represents the gradient of the loss function with respect to the weight $$w_{i}$$. By multiplying this gradient by the corresponding weight, the quantitative impact of pruning that weight on the model performance can be estimated. In contrast to L1 or L2 norm-based methods, **Taylor-based approaches beneficially incorporate gradient information, thereby reflecting input data characteristics and learning dynamics.** LeCun et al.'s *Optimal Brain Damage* [11] and Hassibi & Stork's *Optimal Brain Surgeon* [33] utilized second-order Taylor expansions involving Hessian matrix calculations for more precise importance assessment. Despite their accuracy, these methods are computationally intensive and challenging to implement, leading to wider practical adoption of simpler first-order gradient-weight multiplication approximations.
 
@@ -141,8 +141,8 @@ Taylor-based pruning methods are effective not only for finely-tuned high-perfor
 **Random Metric** Random pruning is the simplest pruning strategy, **selecting and removing target units entirely at random, independent of any importance metrics.** This approach disregards weight magnitude, gradient information, or input characteristics, pruning weights, channels, or attention heads based solely on predefined sparsity ratios. Intuitively considered inefficient, random pruning nonetheless serves widely as a baseline for comparative analysis across numerous studies. 
 
 $$ 
-\text{Random(Unit)} 
-$$.
+\text{Random(Unit)}. 
+$$
 
 Blalock et al. [20], in a systematic review of pruning methods, noted that **random pruning could yield surprisingly competitive performance under certain scenarios**. Particularly, even uninformed pruning approaches might attain accuracy levels comparable to those using explicit importance metrics after adequate fine-tuning [34]. Moreover, random pruning frequently functions as a baseline to evaluate whether specific importance metrics meaningfully contribute to pruning performance enhancement. For instance, Molchanov et al. [10] validated gradient-based pruning effectiveness through comparative analysis against randomly pruned models. Nonetheless, **random pruning may induce irregular structural changes, especially problematic in structured pruning environments, leading to computational unit imbalances and diminished hardware efficiency.**
 
