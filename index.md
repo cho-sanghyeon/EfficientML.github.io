@@ -1,5 +1,6 @@
 ---
 layout: default
+title: ""          # ← 비우면 page.title이 사라져 site.title을 사용
 ---
 
 ## 1. Introduction
