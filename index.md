@@ -3,13 +3,13 @@ bookToc: true
 weight: 1
 ---
 
-# Do Pruning Metrics Generalize? A Cross-Architecture Study on CNNs and Transformers
+# Do Pruning Metrics Generalize? A Cross-Architecture Study on CNNs and Transformer
 Posted by Yeeun Kim, Sanghyeon Cho
 
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
 <p align="center">
-    <img src='./Fig1.VGG-19 and ResNet-34.png' width="400">
+    <img src='./Fig1.VGG-19 and ResNet-34.png' width="500">
     <br>
     <i>Figure 1.  VGG-19 [3] and ResNet-34 [4]</i>
 </p>
@@ -122,7 +122,6 @@ However, **the L1 norm may yield relatively conservative pruning results** becau
 The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
 $$ 
-\displaystyle
 l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
 $$
 
@@ -233,11 +232,7 @@ These findings underscore the necessity of designing pruning metrics that are ta
 ## 6. Limitations
 While this study compared and analyzed the effectiveness of pruning metrics across different model architectures (CNN and Transformer), thereby highlighting the need for architecture-specific pruning strategies, several limitations remain.
 
-First, although ResNet and ViT were selected as representative models for their respective architectures, **the limited number of models** examined makes it difficult to directly generalize the findings to other CNN or Transformer architectures. In particular, the impact of pruning metrics on models with varying depths or widths requires further investigation. 
-
-Second, the experiments were conducted using **fixed pruning ratios of 25%, 50%, and 75%**. As a result, this study did not analyze performance trends or threshold effects at more granular levels of sparsity. Additional experiments with a wider range of pruning ratios are necessary to more precisely assess the sensitivity of models to pruning. 
-
-Third, all experiments were performed using **a single dataset (CIFAR-100)**. Thus, the study does not address how the effectiveness of pruning metrics may vary with dataset complexity or domain. Future research should extend the evaluation to a broader set of datasets in both visual and natural language domains to more thoroughly assess the generalizability and robustness of pruning metrics.
+First, although ResNet and ViT were selected as representative models for their respective architectures, **the limited number of models** examined makes it difficult to directly generalize the findings to other CNN or Transformer architectures. In particular, the impact of pruning metrics on models with varying depths or widths requires further investigation. Second, the experiments were conducted using **fixed pruning ratios of 25%, 50%, and 75%**. As a result, this study did not analyze performance trends or threshold effects at more granular levels of sparsity. Additional experiments with a wider range of pruning ratios are necessary to more precisely assess the sensitivity of models to pruning. Third, all experiments were performed using **a single dataset (CIFAR-100)**. Thus, the study does not address how the effectiveness of pruning metrics may vary with dataset complexity or domain. Future research should extend the evaluation to a broader set of datasets in both visual and natural language domains to more thoroughly assess the generalizability and robustness of pruning metrics.
 
 Based on these limitations, future studies should be designed to encompass diverse architectures, a wider range of pruning ratios, and multiple datasets, ultimately providing more generalizable guidelines for pruning strategies.
 
