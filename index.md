@@ -137,9 +137,11 @@ However, **the L1 norm may yield relatively conservative pruning results** becau
 The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
 
+<div align="center" style="font-size:1.5em;">
 $$ 
-l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
+l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}.
 $$
+</div>
 
 
 In general, weight vectors characterized **by small L2 norm values are targeted for pruning due to their minimal contribution to the model output**. Compared to the L1 norm, the L2 norm imposes a relatively higher penalty on larger weights, resulting in stronger suppression of smaller weight values. This property becomes particularly prominent when weight distributions are broad or contain outliers, typically leading to more conservative pruning outcomes than those obtained using the L1 norm [32]. He et al. [33] demonstrated pruning using an L2 norm-based metric to evaluate filter importance in residual networks. Their findings suggest that this approach can be generalized effectively across diverse architectures, including multi-head attention and MLP blocks within attention-based models as well as residual networks.
