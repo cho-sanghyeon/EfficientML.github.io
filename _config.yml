@@ -1,5 +1,6 @@
 # _config.yml 예시
-title: My DL Notes
+title: "Do Pruning Metrics Generalize?"
+description: ""         # ← 비워두거나 간단한 한 줄로
 remote_theme: pages-themes/cayman   # 테마 사용 시
 markdown: kramdown                  # 기본값
 kramdown:
