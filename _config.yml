@@ -1,4 +1,9 @@
-markdown: kramdown               # 기본값이지만 명시
+# _config.yml 예시
+title: My DL Notes
+remote_theme: pages-themes/cayman   # 테마 사용 시
+markdown: kramdown                  # 기본값
 kramdown:
-  input: GFM                     # GitHub Flavored Markdown
-  math_engine: mathjax           # MathJax 사용
+  input: GFM
+  math_engine: mathjax              # <= 핵심
+plugins:
+  - jekyll-remote-theme             # remote_theme 쓸 때만
