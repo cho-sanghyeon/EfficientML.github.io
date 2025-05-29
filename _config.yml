@@ -1,0 +1,4 @@
+markdown: kramdown               # 기본값이지만 명시
+kramdown:
+  input: GFM                     # GitHub Flavored Markdown
+  math_engine: mathjax           # MathJax 사용
