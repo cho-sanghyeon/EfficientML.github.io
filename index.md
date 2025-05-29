@@ -119,7 +119,7 @@ Generally, **smaller L1 norm values imply a lower contribution to the model outp
 However, **the L1 norm may yield relatively conservative pruning results** because it does not consider input data or dynamic gradient information [20]. To address this limitation, more sophisticated importance evaluation techniques, such as gradient-based and Hessian-based methods, are actively being explored.
 
 \[
-\l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}
+l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}
 \].
 
 **L2 Norm-based Metric** The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
