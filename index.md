@@ -9,7 +9,7 @@ Posted by Yeeun Kim, Sanghyeon Cho
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
 <p align="center">
-    <img src='./Fig1.VGG-19 and ResNet-34.png' width="650">
+    <img src='./Fig1.VGG-19 and ResNet-34.png' width="400">
     <br>
     <i>Figure 1.  VGG-19 [3] and ResNet-34 [4]</i>
 </p>
