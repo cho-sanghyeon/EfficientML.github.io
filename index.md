@@ -3,9 +3,8 @@ bookToc: true
 weight: 1
 ---
 
-# XC-CACHE: Cross-Attending to Cached Context for Efficient LLM Inference
-Submitted on 23 Apr 2024 by João Monteiro1, Étienne Marcotte1,*, Pierre-André Noël1,*, Valentina Zantedeschi1,*, David Vázquez1, Nicolas Chapados1, 2, Christopher Pal1, 2, Perouz Taslakian11, ServiceNow Research.
-Posted by HyunDong Kim, Sangil Han
+# Do Pruning Metrics Generalize? A Cross-Architecture Study on CNNs and Transformers
+Posted by Yeeun Kim, Sanghyeon Cho
 
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
@@ -123,7 +122,8 @@ However, **the L1 norm may yield relatively conservative pruning results** becau
 The L2 norm-based method quantifies the importance of structural units such as convolutional channels, MLP units, or attention heads by **computing the sum of squares of their corresponding weight vectors (i.e., the L2 norm).** This method is formally defined as follows:
 
 $$ 
-\l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
+\displaystyle
+l_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}. 
 $$
 
 In general, weight vectors characterized **by small L2 norm values are targeted for pruning due to their minimal contribution to the model output**. Compared to the L1 norm, the L2 norm imposes a relatively higher penalty on larger weights, resulting in stronger suppression of smaller weight values. This property becomes particularly prominent when weight distributions are broad or contain outliers, typically leading to more conservative pruning outcomes than those obtained using the L1 norm [32]. He et al. [33] demonstrated pruning using an L2 norm-based metric to evaluate filter importance in residual networks. Their findings suggest that this approach can be generalized effectively across diverse architectures, including multi-head attention and MLP blocks within attention-based models as well as residual networks.
