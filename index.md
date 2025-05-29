@@ -5,6 +5,7 @@ title: ""          # ← 비우면 page.title이 사라져 site.title을 사용
 
 ## 1. Introduction
 With the rapid advancement of deep learning technologies, high-performance deep neural networks (DNNs) have been extensively employed across diverse domains, including image classification, object detection, and natural language processing [1-2]. Prominent architectures such as VGGNet [3], ResNet [4], and Vision Transformer (ViT) [5] have demonstrated remarkable performance on various tasks. **However, as the depth and width of these models increase, there is a corresponding substantial growth in parameter count and computational complexity.** For example, ResNet-50 requires over 3.8 GFLOPs for processing a single image, whereas VGG-19 demands approximately 19.7 GFLOPs and occupies about 548 MB of memory for storing parameters [6].
+</p>
 <p align="center">
     <img src='./Fig1.VGG-19 and ResNet-34.png' width="500">
     <br>
@@ -19,6 +20,7 @@ With the rapid advancement of deep learning technologies, high-performance deep 
 Contemporary vision models and large language models (LLMs) now comprise tens to hundreds of billions of parameters, necessitating hundreds of gigabytes of memory and over 10 TFLOPs of computational throughput per second at FP16 precision. These considerable computational requirements result in prohibitively high training costs, even within data centers equipped with advanced GPUs. Furthermore, **edge devices such as mobile phones, IoT sensors, and wearable devices have limited DRAM capacity, constrained computational power, and insufficient battery life, complicating the efficient deployment of large-scale models.** Consequently, these devices often experience increased inference latency and heightened heat and power consumption, limiting their usability in real-time applications. Therefore, model compression strategies that effectively reduce model size and computational complexity, while preserving performance, are crucial. Model compression techniques have emerged as essential methods for realizing lightweight deep learning models and facilitating practical deployment [3].
 
 **Model compression methods aim to optimize deep learning model efficiency by reducing memory consumption, storage requirements, and computational demands.** Additionally, decreasing model complexity through compression can mitigate overfitting, reduce training time and energy consumption [7], and shorten inference latency. Among the various compression strategies, pruning has become the most extensively studied and widely applied approach. **Pruning involves introducing sparsity by identifying and removing less critical parameters within neural networks.** Initially, magnitude-based pruning, which selects parameters for removal based solely on their magnitude, was predominantly employed [8]. Recently, more sophisticated mathematical techniques, including gradient-based methods and sensitivity analyses utilizing Hessian matrices, have emerged [10–12].
+</p>
 <p align="center">
     <img src='./Fig3. Unstructured pruning.png' width="500">
     <br>
@@ -37,7 +39,7 @@ Contemporary vision models and large language models (LLMs) now comprise tens to
 The efficacy of pruning largely hinges on the choice of importance metrics, which assess the significance of parameters or structural components targeted for removal [8, 10]. **Importance metrics are critical for accurately identifying less essential parameters or structures, thereby maximizing compression efficiency while minimizing performance degradation [20].** Various importance metrics proposed in the literature include magnitude-based metrics that rely on parameter absolute values [21], gradient-based metrics that leverage gradient information from the loss function [22], Hessian-based metrics that utilize second-order derivatives from the Hessian matrix [12], and activation sensitivity metrics reflecting the sensitivity of activation values [9]. The effectiveness of each metric can vary depending on specific model architectures or application scenarios, and a consensus regarding a universally optimal metric has not yet been reached.
 
 **Considerable research has been conducted on evaluating pruning importance in convolutional neural networks (CNNs)**. For instance, Molchanov et al. [10] comparatively analyzed pruning performance using L2 norm-based and gradient-based metrics across various CNN models (Table 1). However, there remains a noticeable research gap regarding the generalization and performance validation of these importance evaluation metrics in the recently emerging Transformer architecture.
-
+</p>
 <p align="center">
     <img src='./Table 1.png' width="850">
     <br>
@@ -45,7 +47,7 @@ The efficacy of pruning largely hinges on the choice of importance metrics, whic
 </p>
 
 **This gap arises primarily due to structural differences between Transformers and CNNs.** Transformers possess unique architectural characteristics distinct from traditional convolutional and recurrent networks, notably their attention mechanisms, as depicted in Figure 5. Consequently, importance evaluation methods developed for CNN or RNN-based pruning may exhibit limited effectiveness when directly applied to Transformers [23]. In particular, there is a significant need for further research on developing new metrics specifically for evaluating component importance within multi-head attention and feed-forward networks and conducting systematic performance analyses [24].
-
+</p>
 <p align="center">
     <img src='./Figure 5. The architectures - transformer and multi-head attention.png' width="650">
     <br>
@@ -61,7 +63,7 @@ Additionally, **sparsity ratios were set at levels comparable to widely adopted 
 ### 2.1. CNN Model - ResNet
 
 In this study, we employed **ResNet-56** as a convolution-based model. ResNet, initially proposed by He et al. [4], is widely recognized **for effectively mitigating the gradient vanishing problem inherent in deep neural networks and significantly enhancing training stability through residual connections.** These connections simplify the function space the network must learn by introducing a shortcut path that directly transmits input x to the subsequent block, effectively representing the learned function as  $$F(x) + x$$ (Fig. 6).
-
+</p>
 <p align="center">
     <img src='./Figure 6. Basic Residual Connection in ResNet .png' width="400">
     <br>
@@ -77,7 +79,7 @@ As illustrated in Figure 2, ViT incorporates a class token ([CLS]) analogous to 
 
 ### 2.3. Channel-Wise Pruning in CNN
 **Channel-wise structured pruning involves the removal of entire output channels from convolutional layers, including associated filters and feature maps.** This approach effectively reduces computational complexity and parameters while preserving the hierarchical network structure. Figure 8 visually illustrates channel-wise pruning, highlighting the method of selectively removing less critical channels through importance evaluation, thus enabling model lightweighting.
-
+</p>
 <p align="center">
     <img src='./Figure 7. Channel-Wise Structured Pruning.png' width="850">
     <br>
@@ -90,7 +92,7 @@ Additionally, studies [14,15] empirically demonstrated **the effectiveness of ch
 ### 2.4. Modular Structured Pruning in ViT: Attention Heads and FFN Neurons 
 Concurrently, structural pruning methodologies, analogous to the channel-wise pruning described in Section 2.3, are actively investigated within Transformer-based models. Vision Transformer (ViT), in particular, facilitates **the application of distinct pruning strategies tailored to each module** due to its modular architecture, comprising self-attention and feed-forward network (FFN) modules arranged in parallel.
 **Attention head pruning** refers to the removal of entire individual heads within the multi-head self-attention mechanism. An attention head consists of query (Q), key (K), value (V), and output (O) weight matrices, along with the corresponding -dimensional output space. Heads exhibiting relatively lower importance are identified through importance evaluation metrics and sequentially pruned. Removal of a head involves simultaneous deletion of corresponding columns from the Q, K, and V matrices, as well as rows from the O matrix, thus reducing the concatenated projection dimension by . Consequently, this results in a linear reduction in FLOPs and parameters, and alleviates memory bandwidth constraints due to fewer parallel head executions.
-
+</p>
 <p align="center">
     <img src='./Figure 8. FFN and head pruning.png' width="650">
     <br>
@@ -154,6 +156,7 @@ Blalock et al. [20], in a systematic review of pruning methods, noted that **ran
 
 **Fine-Tuning.** After pruning, a fine-tuning phase was performed to minimize performance degradation and recover any losses incurred during pruning. To balance computational cost and convergence stability, the number of training epochs during fine-tuning was limited to 50. Preliminary experiments of Figure 9, indicated that extending training beyond 50 epochs yielded no significant improvement in loss, supporting this decision as a measure to prevent overfitting and maintain efficient training.
 
+</p>
 <p align="center">
     <img src='./Figure 9. Loss curves during 100 epochs of fine-tuning for two architectures.PNG' width="800">
     <br>
@@ -167,7 +170,7 @@ During fine-tuning, the Adam optimizer was used with a learning rate of 1e-4 to 
 ## 4. Results
 ### 4.1.  Channel-wise Structured Pruning in CNN
 The ResNet-56 model pretrained on the CIFAR-100 dataset has approximately 0.826M parameters and 32.725 GFLOPs of computational cost (Table 2). In this study, three pruning ratios of 25%, 50%, and 75% were applied, reducing the parameters and FLOPs to 0.620M/26.673G, 0.443M/19.933G, and 0.327M/14.486G, respectively (Table 3). As the pruning ratio increased, significant reductions in both parameters and computational cost were observed, and performance was effectively recovered through fine-tuning after pruning in all cases.
-
+</p>
 <p align="center">
     <img src='./Table 2. Original ResNet-56 Model.png' width="800">
     <br>
@@ -185,7 +188,7 @@ Overall, **at low to moderate pruning rates, the Taylor expansion–based criter
 
 ### 4.2. Modular Structured Pruning in ViT: Attention Heads and FFN Neurons
 The Vision Transformer (ViT) model pretrained on the CIFAR-100 dataset comprises approximately 85.723 million parameters and requires 33.726 GFLOPs for inference, as shown in Table 4. In this study, we conducted experiments with pruning ratios set to 25%, 50%, and 75%. After pruning, the model sizes and computational costs were reduced to 64.474M/25.360G, 43.224M/16.994G, and 21.974M/8.628G, respectively (Table 5). As the pruning ratio increased, the model complexity was significantly reduced, while fine-tuning effectively restored model performance in most cases.
-
+</p>
 <p align="center">
     <img src='./Table 4. Original ViT Model.png' width="800">
     <br>
