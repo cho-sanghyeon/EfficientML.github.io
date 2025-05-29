@@ -64,7 +64,7 @@ Additionally, **sparsity ratios were set at levels comparable to widely adopted 
 ## 2. Related Work
 ### 2.1. CNN Model - ResNet-56
 
-In this study, we employed **ResNet-56** as a convolution-based model. ResNet, initially proposed by He et al. [4], is widely recognized **for effectively mitigating the gradient vanishing problem inherent in deep neural networks and significantly enhancing training stability through residual connections.** These connections simplify the function space the network must learn by introducing a shortcut path that directly transmits input x to the subsequent block, effectively representing the learned function as  $$ F(x) + x $$ (Fig. 6).
+In this study, we employed **ResNet-56** as a convolution-based model. ResNet, initially proposed by He et al. [4], is widely recognized **for effectively mitigating the gradient vanishing problem inherent in deep neural networks and significantly enhancing training stability through residual connections.** These connections simplify the function space the network must learn by introducing a shortcut path that directly transmits input x to the subsequent block, effectively representing the learned function as  $$F(x) + x$$ (Fig. 6).
 
 <p align="center">
     <img src='./Figure 6. Basic Residual Connection in ResNet .png' width="400">
@@ -112,7 +112,7 @@ Unlike unstructured pruning, **structured pruning provides significant hardware 
 
 $$ 
 l_1 = |x_1| + |x_2| + \cdots + |x_n| 
-$$
+$$.
 
 Generally, **smaller L1 norm values imply a lower contribution to the model output, thus identifying them as targets for pruning**. Li et al. [30] proposed a pruning approach for CNNs that effectively reduces computational complexity by removing filters with low L1 norm values while minimizing accuracy degradation. Subsequently, this method has been successfully extended to various model structures, including attention heads and hidden units within Transformer models' MLP blocks. The advantage of this method is that it can evaluate importance using only pretrained weight information, eliminating the need for additional training or gradient computations [31]. Specifically, the L1 norm naturally aligns with structured pruning methods such as channel-wise and head-wise pruning, providing structural consistency. This alignment avoids complex sparse mask management on hardware and achieves practical reductions in computational cost and enhanced inference speed. Consequently, the L1 norm has become a widely adopted importance evaluation metric, combining practicality and efficiency [23].
 
@@ -134,7 +134,7 @@ $$
 I(w) = \left| \frac{\partial \mathcal{L}}{\partial w} \cdot w \right| 
 $$.
 
-The term $$ \frac{\partial \mathcal{L}}{\partial w} $$ represents the gradient of the loss function with respect to the weight $$ w_{i} $$. By multiplying this gradient by the corresponding weight, the quantitative impact of pruning that weight on the model performance can be estimated. In contrast to L1 or L2 norm-based methods, **Taylor-based approaches beneficially incorporate gradient information, thereby reflecting input data characteristics and learning dynamics.** LeCun et al.'s *Optimal Brain Damage* [11] and Hassibi & Stork's *Optimal Brain Surgeon* [33] utilized second-order Taylor expansions involving Hessian matrix calculations for more precise importance assessment. Despite their accuracy, these methods are computationally intensive and challenging to implement, leading to wider practical adoption of simpler first-order gradient-weight multiplication approximations.
+The term $$\frac{\partial \mathcal{L}}{\partial w}$$ represents the gradient of the loss function with respect to the weight $$w_{i}$$. By multiplying this gradient by the corresponding weight, the quantitative impact of pruning that weight on the model performance can be estimated. In contrast to L1 or L2 norm-based methods, **Taylor-based approaches beneficially incorporate gradient information, thereby reflecting input data characteristics and learning dynamics.** LeCun et al.'s *Optimal Brain Damage* [11] and Hassibi & Stork's *Optimal Brain Surgeon* [33] utilized second-order Taylor expansions involving Hessian matrix calculations for more precise importance assessment. Despite their accuracy, these methods are computationally intensive and challenging to implement, leading to wider practical adoption of simpler first-order gradient-weight multiplication approximations.
 
 Taylor-based pruning methods are effective not only for finely-tuned high-performance models but also for evaluating the importance of Transformer attention heads [31]. These techniques are particularly praised for their accurate prediction of pruning outcomes at relatively low computational cost compared to fully learning-based importance metrics. However, **the mandatory gradient computations imply that pruning cannot be executed solely with pretrained weights, posing a significant practicality trade-off compared to L1 or L2 norm-based methods.**
 
