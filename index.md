@@ -201,7 +201,7 @@ The ResNet-56 model pretrained on the CIFAR-100 dataset has approximately 0.826M
     <i>Table 2. Original ResNet-56 Model </i>
 </p>
 <p align="center">
-    <img src='./Table 3. Pruning Methods on The ResNet-56 Model at Various Pruning Ratio.png' width="800">
+    <img src='./Table 3. Pruning Methods on the ResNet-56 Model at Various Pruning Ratio.png' width="800">
     <br>
     <i>Table 3. Pruning Methods on the ResNet-56 Model at Various Pruning Ratio</i>
 </p>
