@@ -15,7 +15,7 @@ With the rapid advancement of deep learning technologies, high-performance deep 
 <p align="center">
     <img src='./Fig2. ViT.png' width="650">
     <br>
-    <i>Figure 2. Vision Trasnsformer (ViT) [5]</i>
+    <i>Figure 2. Vision Transformer (ViT) [5]</i>
 </p>
 
 
@@ -113,7 +113,7 @@ Concurrently, structural pruning methodologies, analogous to the channel-wise pr
 </p>
 
 **
-FFN neuron pruning** is a channel-wise structured pruning technique aimed at removing individual neurons constituting the FFN’s internal expansion dimension, . As depicted in Figure 8, pruning a neuron concurrently removes the corresponding row from the input projection matrix  and the corresponding column from the output projection matrix . This pruning reduces the width of the FFN while preserving the tensor dimensions of adjacent layers. Importance is evaluated based on various criteria, including the L1 or L2 norm averages of activations per token or the Fisher information. Uniform neuron pruning across all blocks maintains consistent tensor dimensions throughout the model, simplifying implementation and enhancing computational efficiency.
+FFN neuron pruning** is a channel-wise structured pruning technique aimed at removing individual neurons constituting the FFN’s internal expansion dimension. As depicted in Figure 8, pruning a neuron concurrently removes the corresponding row from the input projection matrix  and the corresponding column from the output projection matrix. This pruning reduces the width of the FFN while preserving the tensor dimensions of adjacent layers. Importance is evaluated based on various criteria, including the L1 or L2 norm averages of activations per token or the Fisher information. Uniform neuron pruning across all blocks maintains consistent tensor dimensions throughout the model, simplifying implementation and enhancing computational efficiency.
 
 Unlike unstructured pruning, **structured pruning provides significant hardware advantages.** Unstructured pruning achieves high compression by setting individual weights to zero but often lacks performance gains without specialized GEMM kernels due to overhead from sparse matrix storage and indexing during inference. Conversely, structured pruning of attention heads and neurons directly reduces computation and memory usage by decreasing tensor dimensions, thereby leveraging standard dense GEMM operations. This consistently improves batch processing latency, reduces power consumption and heat generation, and allows easier performance prediction and optimization, particularly in mobile GPUs and AI accelerator environments. Additionally, preserving structural integrity enhances training stability during subsequent fine-tuning or knowledge distillation phases. Thus, leveraging the parallel modular characteristics of ViT through structured pruning optimizes hardware efficiency and offers practical advantages over unstructured pruning methods, which primarily generate sparse weight matrices.
 
@@ -184,7 +184,7 @@ Blalock et al. [20], in a systematic review of pruning methods, noted that **ran
 <p align="center">
     <img src='./Figure 9. Loss curves during 100 epochs of fine-tuning for two architectures.PNG' width="800">
     <br>
-    <i>Figure 9. Loss Curves During 100 Epochs of Fine-Tuning for Two architectures</i>
+    <i>Figure 9. Loss Curves During 100 Epochs of Fine-Tuning for Two Architectures </i>
 </p>
 
 
@@ -202,7 +202,7 @@ The ResNet-56 model pretrained on the CIFAR-100 dataset has approximately 0.826M
     <i>Table 2. Original ResNet-56 Model </i>
 </p>
 <p align="center">
-    <img src='./Table 3. Pruning Methods on the ResNet-56 Model at Various Pruning Ratio.png' width="800">
+    <img src='./Table 3. Pruning Methods on The ResNet-56 Model at Various Pruning Ratio.png' width="800">
     <br>
     <i>Table 3. Pruning Methods on the ResNet-56 Model at Various Pruning Ratio</i>
 </p>
